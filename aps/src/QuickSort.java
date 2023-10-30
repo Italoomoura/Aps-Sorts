@@ -1,4 +1,6 @@
 
 public class QuickSort {
-	System.out.println("teste");
+	public static void main(String[] args) {
+		System.out.println("teste");
+	}
 }
