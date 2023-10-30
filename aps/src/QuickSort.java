@@ -1,4 +1,4 @@
 
 public class QuickSort {
-  "teste"
+	System.out.println("teste");
 }
