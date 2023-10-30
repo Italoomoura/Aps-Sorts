@@ -7,7 +7,7 @@ public class MergeSort {
 
         mergeSort(arr, 0, arr.length - 1);
 
-        System.out.println("\nArray ordenado:");
+        System.out.println("\nArray aaaaa:");
         printArray(arr);
     }
 
