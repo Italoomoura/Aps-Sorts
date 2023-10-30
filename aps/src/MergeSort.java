@@ -1,16 +1,4 @@
 public class MergeSort {
-
-    public static void main(String[] args) {
-        int[] arr = {12, 11, 13, 5, 6, 7};
-        System.out.println("Array de entrada:");
-        printArray(arr);
-
-        mergeSort(arr, 0, arr.length - 1);
-
-        System.out.println("\nArray aaaaa:");
-        printArray(arr);
-    }
-
     public static void mergeSort(int[] arr, int left, int right) {
         if (left < right) {
             int middle = (left + right) / 2;
