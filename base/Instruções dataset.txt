@@ -1,0 +1,8 @@
+Instale o arquivo no link: https://www.kaggle.com/datasets/soumikrakshit/bdd100k
+
+No diretório C: crie uma pasta chamada "dataset".
+Dentro da pasta, crie duas outras pastas "imgs" e "json".
+
+Na pasta "imgs" transfira dos arquivos baixados as pastas "train" e "val".
+
+Na pasta "json" transfira dos arquivos baixados os arquivos "det_train.json" e "det_val.json".
