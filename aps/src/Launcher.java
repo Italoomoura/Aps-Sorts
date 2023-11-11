@@ -48,7 +48,6 @@ public class Launcher {
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
         	String q = "SELECT * FROM dados LIMIT " + limit;
-        	System.out.println(q);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(q);
             
@@ -108,7 +107,6 @@ public class Launcher {
     
     public void runQuickSort() {
     	// Quick Sort
-    	System.out.println(medida);
         long startTime = System.nanoTime();
         QuickSort.quickSort(dataCopy, 0, dataCopy.length - 1);
         long quickSortTime = (System.nanoTime() - startTime);

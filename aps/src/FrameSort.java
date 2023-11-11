@@ -1,13 +1,22 @@
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class FrameSort extends javax.swing.JFrame {
 
     public FrameSort() {
     	setTitle("Sorts");
-        setPreferredSize(new Dimension(700, 550));
+        setPreferredSize(new Dimension(700, 530));
         setResizable(false);
         initComponents();
     }
@@ -46,6 +55,8 @@ public class FrameSort extends javax.swing.JFrame {
         elementosScrollPane.setViewportView(elementosList);
 
         imagemLabel.setToolTipText("");
+        imagemLabel.setPreferredSize(new Dimension(200, 200));
+        imagemLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         nomeTextLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         nomeTextLabel.setText("Nome:");
@@ -249,6 +260,20 @@ public class FrameSort extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         
+        elementosList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    try {
+						displayInfos();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+                }
+            }
+        });
+        
         imagemLabel.setVisible(false);
         tempoTextLabel.setVisible(false);
         tempoLabel.setVisible(false);
@@ -313,7 +338,40 @@ public class FrameSort extends javax.swing.JFrame {
     	
     	lc.displayChart();
     	return true;
-    }       
+    }      
+    
+    private void displayInfos() throws SQLException {
+    	String jdbcUrl = "jdbc:mysql://localhost/dataset";
+        String username = "root";
+        String password = "root";
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+        	String q = "SELECT * FROM dados WHERE nome = '" + elementosList.getSelectedValue() + "'";
+        	System.out.println(q);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(q);
+            
+            while(resultSet.next()) {
+            	nomeTextLabel.setVisible(true);
+            	tempoTextLabel.setVisible(true);
+            	
+            	nomeLabel.setText(resultSet.getString("nome"));
+            	nomeLabel.setVisible(true);
+            	
+            	tempoLabel.setText(resultSet.getString("tempo"));
+            	tempoLabel.setVisible(true);
+            	
+            	ImageIcon iconImg = new ImageIcon(resultSet.getString("imagem"));
+        	    Image imageImg = iconImg.getImage();
+        	    Image finalImg = imageImg.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        	    ImageIcon capa = new ImageIcon(finalImg);
+        	    imagemLabel.setIcon(capa);
+        	    imagemLabel.setVisible(true);
+            	
+            }
+           
+        }
+    }
                    
     private javax.swing.JComboBox<String> algoritmoBox;
     private javax.swing.JLabel algoritmoTextLabel;
