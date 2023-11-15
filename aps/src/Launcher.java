@@ -49,7 +49,7 @@ public class Launcher {
         String password = "root";
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-        	String q = "SELECT * FROM dados LIMIT " + limit;
+        	String q = "SELECT * FROM dados ORDER BY RAND() LIMIT " + limit;
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(q);
             

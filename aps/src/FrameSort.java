@@ -336,7 +336,7 @@ public class FrameSort extends javax.swing.JFrame {
 			lc.nomeMedida = "nanosegundos";
     	}
     	else if(medidaBox.getSelectedIndex() == 1) {
-    		lc.medida = Math.pow(10, 4);
+    		lc.medida = Math.pow(10, 6);
     		lc.nomeMedida = "milisegundos";
     	}
     	else {
