@@ -20,12 +20,14 @@ public class Launcher {
 	public double medida;
 	public String nomeMedida;
 	private String limit;
+	private String coluna;
 	private DecimalFormat df = new DecimalFormat("#.#####");
 	private FrameSort frame;
 
-    public Launcher(FrameSort frame, String limit) {
+    public Launcher(FrameSort frame, String limit, String coluna) {
     	this.frame = frame;
     	this.limit = limit;
+    	this.coluna = coluna;
     	
     	try {
 			sql();
@@ -70,10 +72,26 @@ public class Launcher {
             resultSet = statement.executeQuery(q);
             int index = 0;
             while (resultSet.next()) {
-                data[index] = resultSet.getString("nome");
+                data[index] = resultSet.getString(coluna);
                 index++;
             }
         }
+    }
+    
+    public void attLista(String[] dataList) {
+    	int count = 0;
+        frame.listModel.clear();
+        while (count < dataList.length) {
+        	//System.out.println(dataList[count]);
+            frame.listModel.addElement(dataList[count]);
+            count++;
+        }
+        
+        frame.elementosList.setModel(frame.listModel);
+        frame.elementosScrollPane.setViewportView(frame.elementosList);
+        frame.elementosScrollPane.invalidate();
+        frame.elementosScrollPane.revalidate();
+        frame.elementosScrollPane.repaint();
     }
     
     public void runBubbleSort() {
@@ -82,6 +100,7 @@ public class Launcher {
         BubbleSort bubbleSort = new BubbleSort();
         bubbleSort.bubble_sort(dataCopy);
         long bubbleSortTime = (System.nanoTime() - startTime);
+        attLista(dataCopy);
         
         dataset.addValue((bubbleSortTime/medida), "Bubble Sort", String.valueOf(data.length));
         
@@ -96,6 +115,7 @@ public class Launcher {
         long startTime = System.nanoTime();
         MergeSort.mergeSort(dataCopy, 0, dataCopy.length - 1);
         long mergeSortTime = (System.nanoTime() - startTime);
+        attLista(dataCopy);
         
         dataset.addValue((mergeSortTime/medida), "Merge Sort", String.valueOf(data.length));
 
@@ -110,6 +130,7 @@ public class Launcher {
         long startTime = System.nanoTime();
         QuickSort.quickSort(dataCopy, 0, dataCopy.length - 1);
         long quickSortTime = (System.nanoTime() - startTime);
+        attLista(dataCopy);
         
         dataset.addValue((quickSortTime/medida), "Quick Sort", String.valueOf(data.length));
 

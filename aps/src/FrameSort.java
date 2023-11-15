@@ -16,7 +16,7 @@ public class FrameSort extends javax.swing.JFrame {
 
     public FrameSort() {
     	setTitle("Sorts");
-        setPreferredSize(new Dimension(700, 530));
+        setPreferredSize(new Dimension(700, 560));
         setResizable(false);
         initComponents();
     }
@@ -36,7 +36,9 @@ public class FrameSort extends javax.swing.JFrame {
         algoritmoTextLabel = new javax.swing.JLabel();
         algoritmoBox = new javax.swing.JComboBox<>();
         medidaTextLabel = new javax.swing.JLabel();
+        colunaTextLabel = new javax.swing.JLabel();
         medidaBox = new javax.swing.JComboBox<>();
+        colunaBox = new javax.swing.JComboBox<>();
         bubbleSortPane = new javax.swing.JPanel();
         bubbleSortTextLabel = new javax.swing.JLabel();
         tempoBubbleSort = new javax.swing.JLabel();
@@ -92,9 +94,15 @@ public class FrameSort extends javax.swing.JFrame {
 
         medidaTextLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         medidaTextLabel.setText("Medida de tempo:");
+        
+        colunaTextLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        colunaTextLabel.setText("Ordenar por:");
 
         medidaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nanosegundos", "Milisegundos", "Segundos" }));
         medidaBox.setSelectedIndex(1);
+        
+        colunaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Tempo"}));
+        colunaBox.setSelectedIndex(0);
 
         bubbleSortTextLabel.setText("Bubble sort:");
 
@@ -207,6 +215,8 @@ public class FrameSort extends javax.swing.JFrame {
                                 .addComponent(qtdSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(qtdTextLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(algoritmoBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(colunaTextLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(colunaBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(medidaTextLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(medidaBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(mergeSortPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -230,6 +240,10 @@ public class FrameSort extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(algoritmoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(colunaTextLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(colunaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(medidaTextLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(medidaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,8 +320,17 @@ public class FrameSort extends javax.swing.JFrame {
         }
     	
     	String limit = qtdField.getText();
-    	Launcher lc = new Launcher(this, limit);
     	
+    	String coluna;
+    	if(colunaBox.getSelectedIndex() == 1) {
+    		coluna = "tempo";
+    	}
+    	else {
+    		coluna = "nome";
+    	}
+    	
+    	Launcher lc = new Launcher(this, limit, coluna);
+
     	if(medidaBox.getSelectedIndex() == 0) {
 			lc.medida = 1;
 			lc.nomeMedida = "nanosegundos";
@@ -347,7 +370,7 @@ public class FrameSort extends javax.swing.JFrame {
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
         	String q = "SELECT * FROM dados WHERE nome = '" + elementosList.getSelectedValue() + "'";
-        	System.out.println(q);
+        	//System.out.println(q);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(q);
             
@@ -381,7 +404,9 @@ public class FrameSort extends javax.swing.JFrame {
     public javax.swing.JScrollPane elementosScrollPane;
     private javax.swing.JLabel imagemLabel;
     private javax.swing.JComboBox<String> medidaBox;
+    private javax.swing.JComboBox<String> colunaBox;
     private javax.swing.JLabel medidaTextLabel;
+    private javax.swing.JLabel colunaTextLabel;
     public javax.swing.JPanel mergeSortPane;
     public javax.swing.JLabel mergeSortTextLabel;
     private javax.swing.JLabel nomeLabel;
